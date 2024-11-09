@@ -1,12 +1,17 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-const links = <>
-    <li><a>Item 1</a></li>
-    <li><a>Item 3</a></li>
-</>
+
 
 const NavBar = () => {
+    const links = <>
+        <li><NavLink to='/'>Home</NavLink></li>
+        <li><NavLink to='/login'>Login</NavLink></li>
+        <li><NavLink to='/register'>Register</NavLink></li>
+        <li><NavLink to='/signUp'>SignUp</NavLink></li>
+
+    </>
+
     return (
         <div className="navbar bg-base-100">
             <div className="navbar-start">
