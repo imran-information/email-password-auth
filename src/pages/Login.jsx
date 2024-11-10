@@ -1,11 +1,13 @@
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import React, { useState } from 'react';
+import { sendPasswordResetEmail, signInWithEmailAndPassword } from 'firebase/auth';
+import React, { useRef, useState } from 'react';
 import auth from '../firebase/firebase.init';
 import { Link } from 'react-router-dom';
 
 const Login = () => {
     const [success, setSuccess] = useState(false)
     const [errorMassage, setErrorMassage] = useState('')
+    const emailRef = useRef()
+
     const handleLoginForm = e => {
         e.preventDefault()
         const email = e.target.email.value;
@@ -19,6 +21,15 @@ const Login = () => {
             }).catch(error => {
                 console.log(error.message)
                 setErrorMassage(error.message)
+            })
+    }
+    const handleResetPassword = () => {
+        const email = emailRef.current.value
+        sendPasswordResetEmail(auth, email)
+            .then(() => {
+                console.log('Email Reset Sent')
+            }).catch((error) => {
+                console.log(error)
             })
     }
 
@@ -38,14 +49,14 @@ const Login = () => {
                             <label className="label">
                                 <span className="label-text">Email</span>
                             </label>
-                            <input type="email" name='email' placeholder="email" className="input input-bordered" required />
+                            <input ref={emailRef} type="email" name='email' placeholder="email" className="input input-bordered" required />
                         </div>
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text">Password</span>
                             </label>
                             <input type="password" name='password' placeholder="password" className="input input-bordered" required />
-                            <label className="label">
+                            <label onClick={handleResetPassword} className="label">
                                 <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
                             </label>
                         </div>
